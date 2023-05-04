@@ -1,5 +1,7 @@
 # LTS-filter Docker
 
+![Alt Text](img/lts_filter.png)
+
 Docker configuration for the long-term stability point cloud filter.
 
 To use the Dockerfile, first run
