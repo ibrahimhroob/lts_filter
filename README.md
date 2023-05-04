@@ -1,4 +1,4 @@
-# LCASTOR Docker
+# LTS-filter Docker
 
 Docker configuration for the long-term stability point cloud filter.
 
