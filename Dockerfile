@@ -25,7 +25,7 @@ RUN apt install -y curl wget && \
 
 # c. Installation
 RUN apt update && \
-    apt install -y ros-${ROS_DISTRO}-desktop && \
+    apt install -y ros-${ROS_DISTRO}-ros-base && \
     echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
 # Clone the filter and Download the model
