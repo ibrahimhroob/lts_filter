@@ -17,7 +17,7 @@ To run the docker node, please set the following params:
 * EPSILON_0: bottom threshold used to filter the ground points (default: 0.04)
 * EPSILON_1: upper threshold used to filter the dynamic points (default: 0.85)
 
-The params could be either set in the **run_docker.sh ** or could be passed as args as follows:
+The params could be either set in the __run_docker.sh__ or could be passed as args as follows:
 
 ```bash
 ./run_docker.sh -U <ROS_MASTER_URI> -R <RAW_CLOUD> -G <EPSILON_0> -D <EPSILON_1>
