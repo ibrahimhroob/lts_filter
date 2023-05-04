@@ -30,8 +30,7 @@ RUN apt update && \
 
 # Clone the filter and Download the model
 RUN cd  /home && \
-    mkdir -p c_ws/src && \
-    cd c_ws/src && \
+    mkdir -p c_ws/src && cd c_ws/src && \
     git clone https://github.com/ibrahimhroob/inference_model.git && \
     cd inference_model/lts_filter/model && \
     wget https://lcas.lincoln.ac.uk/nextcloud/index.php/s/KTS4XYWxGxbYtXs/download -O best_model.pth
@@ -41,9 +40,4 @@ RUN apt update && \
     apt install -y ros-${ROS_DISTRO}-catkin python3-catkin-tools ros-${ROS_DISTRO}-ros-numpy
 
 RUN cd /home/c_ws; . /opt/ros/${ROS_DISTRO}/setup.sh; catkin build -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.7m
-
-# Launch the node when the container starts
-CMD /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && \
-                  source /home/c_ws/devel/setup.bash && \
-                  roslaunch lts_filter filter.launch"
 
