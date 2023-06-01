@@ -68,6 +68,6 @@ RUN cd ceres-solver-1.14.0
 RUN mkdir build && cd build
 RUN cmake -DCMAKE_BUILD_TYPE=Release ./ceres-solver-1.14.0 && make -j2 && make install
 
-
-RUN cd /home/${USER}/c_ws; . /opt/ros/${ROS_DISTRO}/setup.sh; catkin build -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.7m
+WORKDIR /home/${USER}/c_ws
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh; catkin build -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.7m
 
