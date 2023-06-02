@@ -1,0 +1,23 @@
+version: '3'
+services:
+  UoL:
+    image: lts_filter
+    stdin_open: true
+    tty: true
+    command: bash -c "source /home/UoL/c_ws/devel/setup.bash && tail -f /dev/null" 
+    privileged: true
+    network_mode: host
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    environment:
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - ROS_MASTER_URI=http://Mars:11311/
+    volumes:
+      - './:/home/UoL/drive'
+    working_dir: /home/UoL/c_ws
+    restart: "no"
