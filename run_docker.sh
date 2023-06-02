@@ -30,6 +30,7 @@ EPSILON_1=0.85
 # const variables
 image_name=lts_filter
 ROS_DISTRO=noetic
+USER=UoL
 
 ###############################################################################
 #parse bash args of they exists to override the default params 
@@ -64,9 +65,8 @@ docker run --privileged                            \
            -e ROS_MASTER_URI=${ROS_MASTER_URI}     \
            -it ${image_name}                       \
            /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && \
-                  source /home/c_ws/devel/setup.bash && \
+                  source /home/${USER}/c_ws/devel/setup.bash && \
                   roslaunch lts_filter filter.launch raw_cloud:=${RAW_CLOUD} \
                                                      filtered_cloud:=${FILTERED_CLOUD} \
                                                      epsilon_0:=${EPSILON_0} \
                                                      epsilon_1:=${EPSILON_1}"
-
