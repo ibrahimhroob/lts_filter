@@ -7,13 +7,13 @@ services:
     command: bash -c "source /home/UoL/c_ws/devel/setup.bash && tail -f /dev/null" 
     privileged: true
     network_mode: host
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     environment:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - ROS_MASTER_URI=http://Mars:11311/
