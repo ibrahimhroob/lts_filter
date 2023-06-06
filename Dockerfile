@@ -34,17 +34,7 @@ RUN cd  /home && \
     mkdir -p ${USER}/c_ws/src && cd ${USER}/c_ws/src && \
     git clone https://github.com/koide3/ndt_omp && \
     git clone https://github.com/SMRT-AIST/fast_gicp --recursive && \
-    git clone https://github.com/ibrahimhroob/hdl_localization.git && \
-    git clone https://github.com/koide3/hdl_global_localization && \
-    git clone https://github.com/ibrahimhroob/inference_model.git 
-
-# Download base map for localization 
-RUN cd /home/${USER}/c_ws/src/hdl_localization/data  && \ 
-    wget https://lcas.lincoln.ac.uk/nextcloud/index.php/s/9FM2HmQAG5PzDdF/download -O map.pcd
-
-# Download the model 
-RUN cd /home/${USER}/c_ws/src/inference_model/lts_filter/model && \
-    wget https://lcas.lincoln.ac.uk/nextcloud/index.php/s/KTS4XYWxGxbYtXs/download -O best_model.pth
+    git clone https://github.com/koide3/hdl_global_localization 
 
 # Install catkin tools and other packages 
 RUN apt update && \
@@ -69,5 +59,17 @@ RUN mkdir build && cd build
 RUN cmake -DCMAKE_BUILD_TYPE=Release ./ceres-solver-1.14.0 && make -j2 && make install
 
 WORKDIR /home/${USER}/c_ws
+RUN cd src && \
+    git clone https://github.com/ibrahimhroob/hdl_localization.git && \
+    git clone https://github.com/ibrahimhroob/inference_model.git 
+
+# Download base map for localization 
+RUN cd src/hdl_localization/data  && \ 
+    wget https://lcas.lincoln.ac.uk/nextcloud/index.php/s/9FM2HmQAG5PzDdF/download -O map.pcd
+
+# Download the model 
+RUN cd src/inference_model/lts_filter/model && \
+    wget https://lcas.lincoln.ac.uk/nextcloud/index.php/s/KTS4XYWxGxbYtXs/download -O best_model.pth
+
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh; catkin build -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.7m
 
