@@ -4,7 +4,7 @@ services:
     image: lts_filter
     stdin_open: true
     tty: true
-    command: bash -c "source /home/UoL/c_ws/devel/setup.bash && tail -f /dev/null" 
+    command: bash -c "cd /home/UoL/c_ws/src/inference_model/lts_filter && git pull && tail -f /dev/null" 
     privileged: true
     network_mode: host
     deploy:
