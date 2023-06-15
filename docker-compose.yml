@@ -4,7 +4,10 @@ services:
     image: lts_filter
     stdin_open: true
     tty: true
-    command: bash -c "cd /home/UoL/c_ws/src/inference_model/lts_filter && git pull && tail -f /dev/null" 
+    command: bash -c "cd /home/UoL/c_ws/src/inference_model/lts_filter && git pull && \
+                      cd /home/UoL/c_ws/src/hdl_localization && git pull && \
+                      cd /home/UoL/c_ws &&  catkin build hdl_localization && \
+                      tail -f /dev/null" 
     privileged: true
     network_mode: host
     deploy:
