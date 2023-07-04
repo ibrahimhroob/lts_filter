@@ -1,7 +1,7 @@
 version: '3'
 services:
   UoL:
-    image: lts_filter
+    image: lcas.lincoln.ac.uk/lts_filter
     stdin_open: true
     tty: true
     command: bash -c "cd /home/UoL/c_ws/src/inference_model/lts_filter && git pull && \
@@ -19,7 +19,7 @@ services:
               capabilities: [gpu]
     environment:
       - NVIDIA_DRIVER_CAPABILITIES=all
-      - ROS_MASTER_URI=http://localhost:11311/
+      - ROS_MASTER_URI=$ROS_MASTER_URI
     volumes:
       - './:/home/UoL/drive'
     working_dir: /home/UoL/c_ws

@@ -53,4 +53,3 @@ docker exec -it ${image_name}                       \
 
 # TF_REPEATED_DATA warning issue: 
 #https://github.com/ros-planning/navigation/issues/1125
-                
