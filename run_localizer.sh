@@ -48,6 +48,8 @@ printf "${GREEN}Starting ${image_name} localizer docker node...${NC}\n"
 docker exec -it ${image_name}                       \
             /bin/bash -c "source /opt/ros/noetic/setup.bash && \
                   source /home/${USER}/c_ws/devel/setup.bash && \
-                  roslaunch hdl_localization hdl_localization.launch points_topic:=${CLOUD_TOPIC} \
-					2> >(grep -v TF_REPEATED_DATA buffer_core)"
+                  roslaunch hdl_localization hdl_localization.launch \
+                  points_topic:=${CLOUD_TOPIC} 2> >(grep -v TF_REPEATED_DATA buffer_core)"  
 
+# TF_REPEATED_DATA warning issue: 
+#https://github.com/ros-planning/navigation/issues/1125
