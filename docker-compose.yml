@@ -19,7 +19,7 @@ services:
               capabilities: [gpu]
     environment:
       - NVIDIA_DRIVER_CAPABILITIES=all
-      - ROS_MASTER_URI=http://Mars:11311/
+      - ROS_MASTER_URI=http://localhost:11311/
     volumes:
       - './:/home/UoL/drive'
     working_dir: /home/UoL/c_ws
