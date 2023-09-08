@@ -1,26 +1,23 @@
 version: '3'
 services:
-  UoL:
-    image: lcas.lincoln.ac.uk/lts_filter
+  project:
+    image: lts_filter
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    ipc: host
+    privileged: true
+    volumes:
+      - ${PWD}/:/lts
+      - ${DATA}:/lts/data
     stdin_open: true
     tty: true
-    command: bash -c "cd /home/UoL/c_ws/src/inference_model/lts_filter && git pull && \
-                      cd /home/UoL/c_ws/src/hdl_localization && git pull && \
-                      cd /home/UoL/c_ws &&  catkin build hdl_localization && \
-                      tail -f /dev/null" 
-    privileged: true
-    network_mode: host
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+    runtime: nvidia
     environment:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - ROS_MASTER_URI=$ROS_MASTER_URI
-    volumes:
-      - './:/home/UoL/drive'
-    working_dir: /home/UoL/c_ws
-    restart: "no"
+    working_dir: /lts
+

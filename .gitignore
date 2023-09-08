@@ -1,0 +1,6 @@
+data/*
+src/lts.egg-info/*
+src/lts/util/__pycache__/*
+log/*
+*.pyc
+

@@ -1,78 +1,77 @@
 # LTS-Filter for Docker 
 
-![LTS-Filter](img/lts_filter.png)
-
-## 1. Getting the Docker Image
-
-This Docker configuration is designed for the map-based hdl-localization package and the Long-Term Stability (LTS) points filter.
-
-### 1.1 Pulling a precompiled image
-
-We precompiled a Docker image and hosted on our LCAS Docker Hub. In order to download it locally, you can login first in the server and then download it by using the following commands:
-
+### Pre setup
+In your catkin_ws, please clone and build the following packages:
 ```bash
-docker login lcas.lincoln.ac.uk -u lcas -p lincoln
-docker pull lcas.lincoln.ac.uk/lts_filter
+cd </path/to/catkin_ws>/src
+git clone https://github.com/koide3/ndt_omp
+git clone https://github.com/SMRT-AIST/fast_gicp --recursive 
+git clone https://github.com/koide3/hdl_global_localization 
+git clone --branch SPS https://github.com/ibrahimhroob/hdl_localization.git
 ```
 
-This step is recommended because the most time-efficient.
-
-### 1.2 (Expert users/developers) Locally compiling the image
-
-To use the Docker container, run the following command to build the package:
-
+Then build the packages:
 ```bash
-./build_docker.sh
+cd </path/to/catkin_ws>
+catkin build
 ```
 
-## 2. Launching the Docker environment
+### Building the Docker image
+We provide a ```Dockerfile``` and a ```docker-compose.yaml``` to run all docker commands. 
 
-Before launching the container, please make sure to set the correct `ROS_MASTER_URI` in the `docker-compose.yml` file. 
+**IMPORTANT** To have GPU access during the build stage, make ```nvidia``` the default runtime in ```/etc/docker/daemon.json```:
 
-To launch the map-based localization node, we need first to login into the container and then launch the node:
+    ```yaml
+    {
+        "runtimes": {
+            "nvidia": {
+                "path": "/usr/bin/nvidia-container-runtime",
+                "runtimeArgs": []
+            } 
+        },
+        "default-runtime": "nvidia" 
+    }
+    ```
+    Save the file and run ```sudo systemctl restart docker``` to restart docker.
+
+
+To build the image, simply type the following in the terminal:
 ```bash
-docker-compose up -d
+bash build_docker.sh
 ```
 
-### 2.1 Launching the filter
-
-In order to launch the pre-trained filter, please run in terminal the following: 
-
+To run the container:
 ```bash
-./run_filter.sh
+docker compose up -d
 ```
 
-If you want to reconfigure the default point cloud topics for the filter, you can modify them in the `run_filter.sh` script or pass them as arguments to the script. 
-`NB:` Please note that the performance of the filter depends on the GPU. Real-time performance may not be feasible with less powerful GPUs.
-
-### 2.2 Launching the NDT-localizer
-
-To run the localizer, execute the following command:
-
+### Dataset
+Bacchus dataset:
 ```bash
-./run_localizer.sh -C <CLOUD_TOPIC>
+wget https://lcas.lincoln.ac.uk/nextcloud/index.php/s/ssibg4rtrC4XFNJ/download -O Bacchus.zip && unzip Bacchus.zip && rm Bacchus.zip
 ```
 
-Replace <CLOUD_TOPIC> with the topic that will be used for localization, either the raw or the filtered topic.
 
-The robot's pose within the map is exposed in the `/ndt/odom` topic, while a transformation `map -> /ndt_odom` is published on the `tf_tree` to not interfere with an alternative localization method (e.g., RTK-GPS). 
-
-For setting the initial robot pose within the map, it is recommended to use RVIZ's 2D Pose Estimate functionality. RVIZ visualisation configurations can be found in the config folder:
+### Running
+To run, export the path to the data
 
 ```bash
-rviz -d config/hdl_localization.rviz
+export DATA=path/to/dataset
 ```
 
-## 3. Testing with a ROS bag
-You can find [rosbags](https://drive.google.com/drive/folders/1QXDFUI_gCjb6L3F0F-lc-5blk1GA3lAT?usp=sharing) that can be used to test the filter.
+### Training
+```bash
+docker exec -it lts_filter-project-1 bash
+python scripts/train.py
+```
 
-
-## 4. Cleaning the environment
+## Cleaning the environment
 
 After you finish working with the container, please shut it down using the following command:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
-
+## License
+This project is free software made available under the MIT License. For details see the LICENSE file.
