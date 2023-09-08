@@ -72,6 +72,3 @@ After you finish working with the container, please shut it down using the follo
 ```bash
 docker compose down
 ```
-
-## License
-This project is free software made available under the MIT License. For details see the LICENSE file.
